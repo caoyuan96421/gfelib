@@ -80,7 +80,7 @@ def ring_span(
     c = gf.Component()
     (
         c
-        << ring_full(
+        << ring(
             radius,
             width,
             angle,
@@ -105,7 +105,7 @@ def ring_full(
     release_distance: float,
     release_layer: gf.typings.LayerSpec,
 ) -> gf.Component:
-    return ring_full(
+    return ring(
         radius,
         width,
         360,

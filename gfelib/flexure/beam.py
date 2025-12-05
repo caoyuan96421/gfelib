@@ -1,19 +1,19 @@
 import gdsfactory as gf
 import numpy as np
-from gfelib.basic import rectangle
+from gfelib.released import rectangle
 
 
 @gf.cell_with_module_name
 def beam(
     length: float,
     width: float,
-    thicken: bool,
-    thick_ratio: float,
-    thick_width: float,
-    geometry_layer: gf.typings.LayerSpec,
-    release_hole_radius: float,
-    release_distance: float,
-    release_layer: gf.typings.LayerSpec,
+    thicken: bool = False,
+    thick_ratio: float = 0,
+    thick_width: float = 0,
+    geometry_layer: gf.typings.LayerSpec = 0,
+    release_layer: gf.typings.LayerSpec = 1,
+    release_hole_radius: float = 0,
+    release_distance: float = 1,
 ) -> gf.Component:
     """Returns a beam with optional thickened part with release holes
 
