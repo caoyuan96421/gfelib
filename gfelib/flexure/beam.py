@@ -33,7 +33,7 @@ def beam(
     if thick_length == 0 or thick_width == width:
         _ = c << gl.basic.rectangle(
             size=(length, width),
-            layer=geometry_layer,
+            geometry_layer=geometry_layer,
             centered=True,
             release_hole_radius=release_hole_radius,
             release_distance=release_distance,
@@ -73,5 +73,7 @@ def beam(
         release_layer=release_layer,
     )
     rect_thin2_ref.movex(thin_center + 0.5 * thick_offset)
+
+    c.flatten()
 
     return c
