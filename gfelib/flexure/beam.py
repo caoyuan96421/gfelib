@@ -7,60 +7,71 @@ import gfelib as gl
 def beam(
     length: float,
     width: float,
-    thicken: bool = False,
-    thick_ratio: float = 0,
+    geometry_layer: gf.typings.LayerSpec,
+    thick_length: float = 0,
     thick_width: float = 0,
-    geometry_layer: gf.typings.LayerSpec = 0,
-    release_layer: gf.typings.LayerSpec = 1,
+    thick_offset: float = 0,
     release_hole_radius: float = 0,
-    release_distance: float = 1,
+    release_distance: float = 0,
+    release_layer: gf.typings.LayerSpec = (0, 0),
 ) -> gf.Component:
-    """Returns a beam with optional thickened part with release holes
+    """Returns a beam with optional thick mid-section, centered at (0, 0)
 
     Args:
-        size: width and height of rectangle
+        length: length (x) of beam
+        width: width (y) of beam
         geometry_layer: layer to place polygon
-        centered: `True` sets center to (0, 0), `False` sets south-west to (0, 0)
+        thick_length: length (x) of thick section
+        thick_width: width (y) of thick section
+        thick_offset: offset of thick section from center, in x-direction
         release_hole_radius: radius of the release holes
         release_distance: maximum distance between adjacent release holes
         release_layer: layer to place release holes
     """
     c = gf.Component()
 
-    if not thicken:
-        c << gf.components.rectangle(
+    if thick_length == 0 or thick_width == width:
+        _ = c << gl.basic.rectangle(
             size=(length, width),
             layer=geometry_layer,
             centered=True,
+            release_hole_radius=release_hole_radius,
+            release_distance=release_distance,
+            release_layer=release_layer,
         )
         return c
 
-    thin_len = (1 - thick_ratio) * length / 2
-    thick_len = thick_ratio * length
-    thin_center = (thick_len + thin_len) / 2
-    # Emit thickened rectangle
-    c << gl.basic.rectangle(
-        size=(thick_len, thick_width),
+    thin_length = 0.5 * (length - thick_length)
+    thin_center = 0.5 * (thick_length + thin_length)
+
+    rect_thick = c << gl.basic.rectangle(
+        size=(thick_length, thick_width),
         geometry_layer=geometry_layer,
         centered=True,
         release_hole_radius=release_hole_radius,
         release_distance=release_distance,
         release_layer=release_layer,
     )
-    # Emit thin sections
-    (
-        c
-        << gf.components.rectangle(
-            size=(thin_len, width), layer=geometry_layer, centered=True
-        )
-    ).move((thin_center, 0))
+    rect_thick.movex(thick_offset)
 
-    (
-        c
-        << gf.components.rectangle(
-            size=(thin_len, width), layer=geometry_layer, centered=True
-        )
-    ).move((-thin_center, 0))
+    rect_thin1 = c << gl.basic.rectangle(
+        size=(thin_length + thick_offset, width),
+        geometry_layer=geometry_layer,
+        centered=True,
+        release_hole_radius=release_hole_radius,
+        release_distance=release_distance,
+        release_layer=release_layer,
+    )
+    rect_thin1.movex(-thin_center + 0.5 * thick_offset)
 
-    c.flatten()
+    rect_thin2 = c << gl.basic.rectangle(
+        size=(thin_length - thick_offset, width),
+        geometry_layer=geometry_layer,
+        centered=True,
+        release_hole_radius=release_hole_radius,
+        release_distance=release_distance,
+        release_layer=release_layer,
+    )
+    rect_thin2.movex(thin_center + 0.5 * thick_offset)
+
     return c
