@@ -44,7 +44,7 @@ def beam(
     thin_length = 0.5 * (length - thick_length)
     thin_center = 0.5 * (thick_length + thin_length)
 
-    rect_thick = c << gl.basic.rectangle(
+    rect_thick_ref = c << gl.basic.rectangle(
         size=(thick_length, thick_width),
         geometry_layer=geometry_layer,
         centered=True,
@@ -52,9 +52,9 @@ def beam(
         release_distance=release_distance,
         release_layer=release_layer,
     )
-    rect_thick.movex(thick_offset)
+    rect_thick_ref.movex(thick_offset)
 
-    rect_thin1 = c << gl.basic.rectangle(
+    rect_thin1_ref = c << gl.basic.rectangle(
         size=(thin_length + thick_offset, width),
         geometry_layer=geometry_layer,
         centered=True,
@@ -62,9 +62,9 @@ def beam(
         release_distance=release_distance,
         release_layer=release_layer,
     )
-    rect_thin1.movex(-thin_center + 0.5 * thick_offset)
+    rect_thin1_ref.movex(-thin_center + 0.5 * thick_offset)
 
-    rect_thin2 = c << gl.basic.rectangle(
+    rect_thin2_ref = c << gl.basic.rectangle(
         size=(thin_length - thick_offset, width),
         geometry_layer=geometry_layer,
         centered=True,
@@ -72,6 +72,6 @@ def beam(
         release_distance=release_distance,
         release_layer=release_layer,
     )
-    rect_thin2.movex(thin_center + 0.5 * thick_offset)
+    rect_thin2_ref.movex(thin_center + 0.5 * thick_offset)
 
     return c
