@@ -33,7 +33,7 @@ def circle(
     if release_hole_radius <= 0 or release_distance <= 0:
         return c
 
-    if 2 * radius <= release_distance:
+    if radius <= release_distance:
         return c
 
     hole = gf.components.circle(
@@ -45,7 +45,7 @@ def circle(
     sr = radius / (radius // s + 1.5)
 
     for r in np.arange(0, radius, sr):
-        steps = 2 * np.pi * (r + 0.5 * sr) // s + 1
+        steps = 2 * np.pi * r // s + 1
         dt = 2 * np.pi / steps
         t = np.arange(0.5 * dt, 2 * np.pi + dt, dt)
         points = np.stack((r * np.cos(t), r * np.sin(t)), axis=-1)

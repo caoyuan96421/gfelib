@@ -40,7 +40,7 @@ def ring(
         return c
 
     if (
-        2 * radius <= release_distance
+        radius <= release_distance
         or width <= release_distance
         or angle * np.pi / 180 * radius <= release_distance
     ):
@@ -55,7 +55,7 @@ def ring(
     sr = width / (width // s + 1)
 
     for r in np.arange(radius - 0.5 * width + 0.5 * sr, radius + 0.5 * width, sr):
-        steps = angle / 180 * np.pi * (r + 0.5 * sr) // s + 1
+        steps = angle * np.pi / 180 * r // s + 1
         dt = angle / 180 * np.pi / steps
         t = np.arange(0.5 * dt, angle / 180 * np.pi + dt, dt)
         points = np.stack((r * np.cos(t), r * np.sin(t)), axis=-1)
