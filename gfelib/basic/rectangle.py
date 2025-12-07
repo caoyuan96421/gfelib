@@ -17,8 +17,8 @@ def rectangle(
     """Returns a rectangle with release holes
 
     Args:
-        size: width and height of rectangle
-        geometry_layer: layer to place polygon
+        size: rectangle width and height
+        geometry_layer: rectangle polygon layer
         centered: `True` sets center to (0, 0), `False` sets south-west to (0, 0)
         release_spec: release specifications, `None` for no release
     """

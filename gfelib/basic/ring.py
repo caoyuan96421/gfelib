@@ -19,11 +19,11 @@ def ring(
     """Returns a ring with release holes
 
     Args:
-        radius: radius of the ring (midpoint between inner and outer radii)
-        width: width of the ring
+        radius: ring midpoint radius (midpoint between inner and outer radii)
+        width: ring width
         angle: angular coverage of the ring (unit: degrees)
-        geometry_layer: layer to place polygon
-        angle_resolution: number of degrees per point
+        geometry_layer: ring polygon layer
+        angle_resolution: degrees per point for circular geometries
         release_spec: release specifications, `None` for no release
     """
     c = gf.Component()

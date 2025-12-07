@@ -13,12 +13,12 @@ def beam(
     beam_spec: gl.datatypes.BeamSpec | None,
     release_spec: gl.datatypes.ReleaseSpec | None,
 ) -> gf.Component:
-    """Returns a beam with optional thick mid-section, centered at (0, 0)
+    """Returns a complex beam, centered at (0, 0)
 
     Args:
-        length: length (x) of beam
-        width: width (y) of beam
-        geometry_layer: layer to place polygon
+        length: beam length (x)
+        width: beam width (y)
+        geometry_layer: beam polygon layer
         beam_spec: complex beam specifications, `None` for default
         release_spec: release specifications, `None` for no release
     """

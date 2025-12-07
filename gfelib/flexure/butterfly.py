@@ -23,14 +23,14 @@ def butterfly(
     """Returns a half-butterfly joint (4 beams)
 
     Args:
-        radius_inner: inner radius of the inner carriage
-        radius_outer: outer radius of the joint
-        width_inner: width of the inner carriage
-        width_beam: width of the beams
-        angles: angles to place beams
+        radius_inner: inner carriage inner radius
+        radius_outer: joint outer radius
+        width_inner: inner carriage width
+        width_beam: beam width
+        angles: beam placement angles
         release_inner: `True` to release inner carriage
-        geometry_layer: layer to place polygon
-        angle_resolution: number of degrees per point
+        geometry_layer: joint polygon layer
+        angle_resolution: degrees per point for circular geometries
         beam_spec: complex beam specifications, `None` for default
         release_spec: release specifications, `None` for no release
     """
