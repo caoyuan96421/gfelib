@@ -71,24 +71,12 @@ def ring_span(
     span: tuple[float, float],
     geometry_layer: gf.typings.LayerSpec,
     angle_resolution: float,
-    release_hole_radius: float,
-    release_distance: float,
-    release_layer: gf.typings.LayerSpec,
+    release_spec: gl.datatypes.ReleaseSpec | None,
 ) -> gf.Component:
     angle = span[1] - span[0]
     c = gf.Component()
     (
-        c
-        << ring(
-            radius,
-            width,
-            angle,
-            geometry_layer,
-            angle_resolution,
-            release_hole_radius,
-            release_distance,
-            release_layer,
-        )
+        c << ring(radius, width, angle, geometry_layer, angle_resolution, release_spec)
     ).rotate(span[0], (0, 0))
     c.flatten()
     return c
@@ -100,17 +88,6 @@ def ring_full(
     width: float,
     geometry_layer: gf.typings.LayerSpec,
     angle_resolution: float,
-    release_hole_radius: float,
-    release_distance: float,
-    release_layer: gf.typings.LayerSpec,
+    release_spec: gl.datatypes.ReleaseSpec | None,
 ) -> gf.Component:
-    return ring(
-        radius,
-        width,
-        360,
-        geometry_layer,
-        angle_resolution,
-        release_hole_radius,
-        release_distance,
-        release_layer,
-    )
+    return ring(radius, width, 360, geometry_layer, angle_resolution, release_spec)
