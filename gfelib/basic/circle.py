@@ -17,9 +17,9 @@ def circle(
     """Returns a circle with release holes
 
     Args:
-        radius: radius of the circle
-        geometry_layer: layer to place polygon
-        angle_resolution: number of degrees per point
+        radius: circle radius
+        geometry_layer: circle polygon layer
+        angle_resolution: degrees per point for circular geometries
         release_spec: release specifications, `None` for no release
     """
     c = gf.Component()

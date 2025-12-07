@@ -10,9 +10,9 @@ class ReleaseSpec(pydantic.BaseModel):
     """Isotropic release specifications
 
     Parameters:
-        hole_radius: radii of circular release holes
+        hole_radius: circular release hole radius
         distance: isotropic release distance
-        angle_resolution: number of degrees per point for circular polygons
+        angle_resolution: degrees per point for circular geometries
         layer: release hole layer
     """
 

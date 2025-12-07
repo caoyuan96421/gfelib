@@ -14,28 +14,24 @@ def butterfly(
     width_inner: float,
     width_beam: float,
     angles: tuple[float, float],
-    geometry_layer: gf.typings.LayerSpec,
-    thick_length: float,
-    thick_width: float,
-    thick_offset: float,
     release_inner: bool,
+    geometry_layer: gf.typings.LayerSpec,
     angle_resolution: float,
+    beam_spec: gl.datatypes.BeamSpec | None,
     release_spec: gl.datatypes.ReleaseSpec | None,
 ) -> gf.Component:
     """Returns a half-butterfly joint (4 beams)
 
     Args:
-        radius_inner: inner radius of the inner carriage
-        radius_outer: outer radius of the joint
-        width_inner: width of the inner carriage
-        width_beam: width of the beams
-        angles: angles to place beams
-        geometry_layer: layer to place polygon
-        thick_length: length of beam thick section
-        thick_width: width of beam thick section
-        thick_offset: offset of beam thick section, positive is away from center
+        radius_inner: inner carriage inner radius
+        radius_outer: joint outer radius
+        width_inner: inner carriage width
+        width_beam: beam width
+        angles: beam placement angles
         release_inner: `True` to release inner carriage
-        angle_resolution: number of degrees per point
+        geometry_layer: joint polygon layer
+        angle_resolution: degrees per point for circular geometries
+        beam_spec: complex beam specifications, `None` for default
         release_spec: release specifications, `None` for no release
     """
     c = gf.Component()
@@ -46,24 +42,21 @@ def butterfly(
         np.pi / 180
     )
 
-    inner_carriage_ref = c << gl.basic.ring(
+    _ = c << gl.basic.ring(
         radius=radius_inner + 0.5 * width_inner,
         width=width_inner,
-        angle=180 - 2 * angle_start,
+        angles=(angle_start, 180 - angle_start),
         geometry_layer=geometry_layer,
         angle_resolution=angle_resolution,
         release_spec=release_spec if release_inner else None,
     )
-    inner_carriage_ref.rotate(angle_start, (0, 0))
 
     beam_offset = 0.5 * (radius_outer + radius_inner + width_inner)
     beam = gl.flexure.beam(
         length=radius_outer - radius_inner - width_inner + 0.5 * width_beam,
         width=width_beam,
         geometry_layer=geometry_layer,
-        thick_length=thick_length,
-        thick_width=thick_width,
-        thick_offset=thick_offset,
+        beam_spec=beam_spec,
         release_spec=release_spec,
     )
     for a in [angles[0], angles[1], 180 - angles[1], 180 - angles[0]]:
