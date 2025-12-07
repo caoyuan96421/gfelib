@@ -15,6 +15,8 @@ def beam(
 ) -> gf.Component:
     """Returns a complex beam, centered at (0, 0)
 
+    **Warning**: release holes are never added to thin sections of the beam, regardless of dimensions
+
     Args:
         length: beam length (x)
         width: beam width (y)
@@ -25,11 +27,10 @@ def beam(
     c = gf.Component()
 
     if not beam_spec.thickened:
-        _ = c << gl.basic.rectangle(
+        _ = c << gf.components.rectangle(
             size=(length, width),
-            geometry_layer=geometry_layer,
+            layer=geometry_layer,
             centered=True,
-            release_spec=release_spec,
         )
         c.flatten()
         return c
@@ -49,19 +50,17 @@ def beam(
     )
     rect_thick_ref.movex(thick_offset)
 
-    rect_thin1_ref = c << gl.basic.rectangle(
+    rect_thin1_ref = c << gf.components.rectangle(
         size=(thin_length + thick_offset, width),
-        geometry_layer=geometry_layer,
+        layer=geometry_layer,
         centered=True,
-        release_spec=release_spec,
     )
     rect_thin1_ref.movex(-thin_center + 0.5 * thick_offset)
 
-    rect_thin2_ref = c << gl.basic.rectangle(
+    rect_thin2_ref = c << gf.components.rectangle(
         size=(thin_length - thick_offset, width),
-        geometry_layer=geometry_layer,
+        layer=geometry_layer,
         centered=True,
-        release_spec=release_spec,
     )
     rect_thin2_ref.movex(thin_center + 0.5 * thick_offset)
 
